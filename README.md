@@ -36,8 +36,8 @@ example:
 
 
 ### Lab2
-
-- add a new path that will allow you to create a programming language code based on
+Modify the code in the `hello.py` to do the following:
+1- add a new route that will allow you to **ask to chatgpt to do some code in some programing language**. it should use the following parameters: 
   - language: the programming language to use
   - content: the code that it has to generate
 

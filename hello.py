@@ -1,11 +1,10 @@
-from flask import Flask,request
+from flask import Flask, request
 import os
 import openai
 
 app = Flask(__name__)
 
 openai.api_key = os.environ.get('OPENAI_KEY')
-
 
 @app.route('/')
 def index():
@@ -14,7 +13,7 @@ def index():
 @app.route('/chatgpt')
 def chatgpt():
     args = request.args
-    message =args.get("message")
+    message = args.get("message")
     print(message)
     completion = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
@@ -22,4 +21,18 @@ def chatgpt():
     )
     return completion['choices'][0]['message']['content']
 
+@app.route('/search_code', methods=['GET'])
+def search_code():
+    language = request.args.get('language')
+    content = request.args.get('content')
+
+    if language is None or content is None:
+        return "Error: Missing language or content parameter", 400
+
+    prompt = f"Write {language} code to {content}:"
+    completion = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "user", "content": prompt}]
+    )
+    return completion['choices'][0]['message']['content']
 
